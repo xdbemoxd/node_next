@@ -18,7 +18,7 @@
     "declaration": true,
     "declarationMap": true,
     "lib": ["es2020"],
-    "types": ["node"],
+    "types":  ["node", "jest"],
     "isolatedModules": true
   },
   "include": ["src"]
