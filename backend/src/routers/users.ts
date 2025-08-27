@@ -1,30 +1,61 @@
 import express from "express";
-import { typeUrgency } from "../dBConnection/query/queryUser";
+import { loginUser } from "../dBConnection/query/queryUser";
+import { generateToken, validateToken } from "../lib/token";
+
+interface User {
+  id: string,
+  email:string,
+  date_birth:string,
+  name_user:string,
+  last_name:string,
+  rol_id:number;
+}
 
 const routUser = express.Router();
 
 routUser.use(express.json());
 
 routUser.get( '/', async ( _req, res ) => {
-    const result = await typeUrgency()
-    res.send( result );
+    res.send( "connection established" );
 });
 
-routUser.get( '/:user/:password', ( req, res ) => {
-    const user = req.params.user;
+routUser.get( '/:id/:password', async ( req, res ) => {
+    const id = req.params.id;
     const password = req.params.password;
 
-    console.log( user );
+    console.log( id );
     console.log( password );
 
-    if ( user === undefined && password === undefined) {
+    if ( id === undefined && password === undefined) {
         res.status(404);
         return;
     }
 
-    res.send(`Usuario ${user}, contraseña ${password}`)
+    const result = await loginUser({id , password});
+
+    if (result.length === 0 ) {
+        res.status(404).send('incorrect credentials')
+    }
+
+    const payload :User =  {
+        id: result[0].id_card,
+        email: result[0].email,
+        date_birth: result[0].date_birth,
+        name_user: result[0].name_user,
+        last_name: result[0].last_name,
+        rol_id: result[0].rol_id
+    }
+
+    const token = generateToken(payload);
+
+
+    res.json(token);
 
 });
+
+routUser.get( '/data', (req,res, nex) => {
+    validateToken(req,res,nex);
+})
 
 
 export default routUser;
