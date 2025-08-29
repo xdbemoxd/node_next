@@ -1,25 +1,13 @@
 import express from "express";
-import { loginUser } from "../dBConnection/query/queryUser";
+import { deleteUser, insertUser, loginUser } from "../dBConnection/query/queryUser";
 import { generateToken, validateToken } from "../lib/token";
-
-interface User {
-  id: string,
-  email:string,
-  date_birth:string,
-  name_user:string,
-  last_name:string,
-  rol_id:number;
-}
+import { User_2 } from "../types/user.ts";
 
 const routUser = express.Router();
 
 routUser.use(express.json());
 
-routUser.get( '/', async ( _req, res ) => {
-    res.send( "connection established" );
-});
-
-routUser.get( '/:id/:password', async ( req, res ) => {
+routUser.get( '/token/:id/:password', async ( req, res ) => {
     const id = req.params.id;
     const password = req.params.password;
 
@@ -37,7 +25,7 @@ routUser.get( '/:id/:password', async ( req, res ) => {
         res.status(404).send('incorrect credentials')
     }
 
-    const payload :User =  {
+    const payload =  {
         id: result[0].id_card,
         email: result[0].email,
         date_birth: result[0].date_birth,
@@ -53,9 +41,56 @@ routUser.get( '/:id/:password', async ( req, res ) => {
 
 });
 
-routUser.get( '/data', (req,res, nex) => {
+routUser.get( '/auth/me', (req,res, nex) => {
     validateToken(req,res,nex);
 })
+
+routUser.post( '/', async (req,res) => {
+
+    const data : User_2 = req.body;
+
+    try {
+
+        if ( data === undefined ) {
+            res.status( 400 ).json( {message:"incorrect credentials 2"} );
+        }
+        
+        if ( data.id === undefined || data.password === undefined || data.name_user === undefined || data.last_name === undefined ) {
+            res.status( 400 ).json( {message:"incorrect credentials"} );
+        }
+
+        const result = await insertUser( data );
+
+        console.log(result);
+
+
+    } catch (error) {
+        return res.status( 400 ).json( error );
+    }
+
+})
+
+routUser.delete( '/delete/:id', async (req, res) => {
+
+    const id = req.params.id;
+
+    if (id === undefined) {
+        return res.status(400).json( { message: "User undefined" });
+    }
+
+    console.log(id);
+
+    const result = await deleteUser(id);
+
+    if (result.rowCount === 0) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.json( { message: "Successfully deleted user",
+        data:result.rows[0]
+    } );
+ 
+});
 
 
 export default routUser;

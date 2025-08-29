@@ -7,3 +7,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJvb3QiLCJlb
 GET  http://localhost:3000/api/user/data HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InJvb3QiLCJlbWFpbCI6bnVsbCwiZGF0ZV9iaXJ0aCI6bnVsbCwibmFtZV91c2VyIjoicm9vdCIsImxhc3RfbmFtZSI6InJvb3QiLCJyb2xfaWQiOjEsImlhdCI6MTc1NjMyMjk4NiwiZXhwIjoxNzU2MzUxNzg2fQ.yg-W3e8RV_yqWuZn8dfpzVd7JAhU66Ao8QuFG_nxif4
+
+
+###
+
+POST http://localhost:3000/api/v1/user/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "id":"123456",
+    "password":"mockPassword2",
+    "email":null,
+    "date_birth":null,
+    "name_user":"mockName2",
+    "last_name":"mock2LastName2"
+}
+
+###
+DELETE http://localhost:3000/api/v1/user/delete/123456 HTTP/1.1

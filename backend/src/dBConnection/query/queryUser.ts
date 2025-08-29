@@ -1,9 +1,5 @@
 import pool from "../dBconection";
-
-interface User {
-  id: string,
-  password: string;
-}
+import { User, User_2 } from '../../types/user.ts/index';
 
 export async function typeUrgency() {
     const result = await pool.query('SELECT * FROM urgency');
@@ -16,4 +12,31 @@ export async function loginUser({ id, password } :User){
 
     return result.rows;
 
+}
+
+export async function insertUser( { id, password, email, date_birth, name_user, last_name }:User_2 ) {
+  
+
+  console.log(id,password,email,date_birth,name_user,last_name);
+
+  if ( date_birth === null  ) {
+    console.log('date_birth es nulo')
+    const result = await pool.query(`INSERT INTO USER_APLICATION ( id_card, password_user, email, date_birth, name_user, last_name, rol_id) VALUES ('${id}', '${password}', '${email}', null, '${name_user}', '${last_name}', 3);`);
+    return result;
+  }
+
+  const result = await pool.query(`INSERT INTO USER_APLICATION ( id_card, password_user, email, date_birth, name_user, last_name, rol_id) VALUES ('${id}', '${password}', '${email}', '${date_birth}', '${name_user}', '${last_name}', 3);`);
+
+  return result;
+
+}
+
+export async function deleteUser( id : string ) {
+
+  console.log(id);
+
+  const result = await pool.query( `DELETE FROM USER_APLICATION as UA where UA.id_card = '${id}' RETURNING *;` );
+
+  return result;
+  
 }
