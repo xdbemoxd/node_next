@@ -99,10 +99,10 @@ routUser.put( '/:id', async ( req, res ) => {
     const result = await updateUser(data,id);
 
     if (result?.rowCount === 0 || result === undefined ) {
-        return res.status(400).json( { message : "incorrect credentials" } )
+        return res.status(400).json( { message : "incorrect credentials" } );
     }
 
-    return res.json( { message : " Successfully update user" } )
+    return res.json( { message : "Successfully update user" } );
 
 });
 

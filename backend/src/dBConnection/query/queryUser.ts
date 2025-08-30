@@ -46,6 +46,22 @@ export async function updateUser( user : User_2, id : string ) {
   
   }
 
+  if ( user.date_birth === null && user.email === null ) {
+    
+    const result = await pool.query(`UPDATE USER_APLICATION SET password_user = '${user.password}', email = null, date_birth = null, name_user = '${user.name_user}' , last_name = '${user.last_name}' WHERE id_card = '${id}';`);
+    return result;
+
+  }
+
+
+  if ( user.email === null ) {
+    
+    const result = await pool.query(`UPDATE USER_APLICATION SET password_user = '${user.password}', email = null, date_birth = '${user.date_birth}', name_user = '${user.name_user}' , last_name = '${user.last_name}' WHERE id_card = '${id}';`);
+    return result;
+
+  }
+
+
   if ( user.date_birth === null ) {
     
     const result = await pool.query(`UPDATE USER_APLICATION SET password_user = '${user.password}', email = '${user.email}', date_birth = null, name_user = '${user.name_user}' , last_name = '${user.last_name}' WHERE id_card = '${id}';`);
