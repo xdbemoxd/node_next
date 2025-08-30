@@ -20,7 +20,6 @@ export async function insertUser( { id, password, email, date_birth, name_user, 
   console.log(id,password,email,date_birth,name_user,last_name);
 
   if ( date_birth === null  ) {
-    console.log('date_birth es nulo')
     const result = await pool.query(`INSERT INTO USER_APLICATION ( id_card, password_user, email, date_birth, name_user, last_name, rol_id) VALUES ('${id}', '${password}', '${email}', null, '${name_user}', '${last_name}', 3);`);
     return result;
   }
@@ -33,10 +32,28 @@ export async function insertUser( { id, password, email, date_birth, name_user, 
 
 export async function deleteUser( id : string ) {
 
-  console.log(id);
-
   const result = await pool.query( `DELETE FROM USER_APLICATION as UA where UA.id_card = '${id}' RETURNING *;` );
 
   return result;
   
+}
+
+export async function updateUser( user : User_2, id : string ) {
+
+  if ( user === undefined || id === undefined ) {
+
+    return;
+  
+  }
+
+  if ( user.date_birth === null ) {
+    
+    const result = await pool.query(`UPDATE USER_APLICATION SET password_user = '${user.password}', email = '${user.email}', date_birth = null, name_user = '${user.name_user}' , last_name = '${user.last_name}' WHERE id_card = '${id}';`);
+    return result;
+
+  }
+
+  const result = await pool.query(`UPDATE USER_APLICATION SET password_user = '${user.password}', email = '${user.email}', date_birth = '${user.date_birth}', name_user = '${user.name_user}' , last_name = '${user.last_name}' WHERE id_card = '${id}';`);
+  return result;
+
 }

@@ -25,3 +25,16 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/api/v1/user/delete/123456 HTTP/1.1
+
+###
+PUT http://localhost:3000/api/v1/user/1234
+Content-Type: application/json
+
+{
+    "id":"1234",
+    "password":"mockUpdate_2",
+    "email":null,
+    "date_birth":null,
+    "name_user":"mockUpdateName_2",
+    "last_name":"mockUpdateLastName_2"
+}

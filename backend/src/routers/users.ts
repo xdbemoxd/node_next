@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteUser, insertUser, loginUser } from "../dBConnection/query/queryUser";
+import { deleteUser, insertUser, loginUser, updateUser } from "../dBConnection/query/queryUser";
 import { generateToken, validateToken } from "../lib/token";
 import { User_2 } from "../types/user.ts";
 
@@ -52,7 +52,7 @@ routUser.post( '/', async (req,res) => {
     try {
 
         if ( data === undefined ) {
-            res.status( 400 ).json( {message:"incorrect credentials 2"} );
+            res.status( 400 ).json( {message:"incorrect credentials"} );
         }
         
         if ( data.id === undefined || data.password === undefined || data.name_user === undefined || data.last_name === undefined ) {
@@ -90,6 +90,20 @@ routUser.delete( '/delete/:id', async (req, res) => {
         data:result.rows[0]
     } );
  
+});
+
+routUser.put( '/:id', async ( req, res ) => {
+    const id = req.params.id;
+    const data = req.body;
+    
+    const result = await updateUser(data,id);
+
+    if (result?.rowCount === 0 || result === undefined ) {
+        return res.status(400).json( { message : "incorrect credentials" } )
+    }
+
+    return res.json( { message : " Successfully update user" } )
+
 });
 
 
