@@ -1,10 +1,7 @@
 import pool from "../dBconection";
-import { User, User_2 } from '../../types/user.ts/index';
+import { User, User_2 } from '../../types/user/index';
 
-export async function typeUrgency() {
-    const result = await pool.query('SELECT * FROM urgency');
-    return result.rows;
-}
+
 
 export async function loginUser({ id, password } :User){
     

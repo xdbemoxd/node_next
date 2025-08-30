@@ -58,7 +58,7 @@ export async function validateToken(req:Request,res:Response,next:NextFunction) 
 
         next();
     } catch (e) {
-        return res.status(401).json({ message: "Invalid token" });
+        return res.status(401).json( { message: "Invalid token" } );
     }
     
 }

@@ -38,3 +38,30 @@ Content-Type: application/json
     "name_user":"mockUpdateName_2",
     "last_name":"mockUpdateLastName_2"
 }
+
+
+###
+POST  http://localhost:3000/api/v1/user/1234/task
+Content-Type: application/json
+
+{
+    "urgency":1,
+    "name_task":"mock task 3",
+    "description":"add 3 mock task",
+    "due_date":"2025-09-09"
+}
+
+###
+PUT http://localhost:3000/api/v1/user/1234/task HTTP/1.1
+Content-Type: application/json
+
+{
+    "urgency":1,
+    "name_task":"mock Task 3 Update",
+    "description":"Something",
+    "id":6,
+    "due_date":"2025-09-01"
+}
+
+###
+DELETE http://localhost:3000/api/v1/user/5/task

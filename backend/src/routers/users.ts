@@ -1,7 +1,7 @@
 import express from "express";
 import { deleteUser, insertUser, loginUser, updateUser } from "../dBConnection/query/queryUser";
 import { generateToken, validateToken } from "../lib/token";
-import { User_2 } from "../types/user.ts";
+import { User_2 } from "../types/user";
 
 const routUser = express.Router();
 
@@ -43,7 +43,7 @@ routUser.get( '/token/:id/:password', async ( req, res ) => {
 
 routUser.get( '/auth/me', (req,res, nex) => {
     validateToken(req,res,nex);
-})
+});
 
 routUser.post( '/', async (req,res) => {
 
@@ -61,7 +61,11 @@ routUser.post( '/', async (req,res) => {
 
         const result = await insertUser( data );
 
-        console.log(result);
+        if (result.rowCount === 0) {
+            res.status( 400 ).json( {message:"incorrect credentials"} );
+        }
+
+        res.json( { message : "the user was created successfully" } )
 
 
     } catch (error) {
