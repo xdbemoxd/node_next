@@ -7,12 +7,9 @@ const routUser = express.Router();
 
 routUser.use(express.json());
 
-routUser.get( '/token/:id/:password', async ( req, res ) => {
+routUser.post( '/token/:id/:password', async ( req, res ) => {
     const id = req.params.id;
     const password = req.params.password;
-
-    console.log( id );
-    console.log( password );
 
     if ( id === undefined && password === undefined) {
         res.status(404);

@@ -22,8 +22,6 @@ export function generateToken(user:User) {
         throw new Error("La variable de entorno SECRET_KEY no está definida.");
     }
 
-    console.log(secretKey);
-
     return jwt.sign(user, secretKey , {expiresIn:'8h'});
     
 }
@@ -51,8 +49,6 @@ export async function validateToken(req:Request,res:Response,next:NextFunction) 
     try {
 
         const user = await VerifyDecodeToken(token);
-
-        console.log(user);
 
         res.json(user);
 
