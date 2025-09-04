@@ -1,3 +1,10 @@
-export function createUser() {
-    return <p>PAPAPAPAPAPAPAPAPAP</p>
+export default function CreatForm() {
+    return (
+    
+    <div> 
+        <p>PAPAPAPAPAPAPAPAPAP</p>    
+    </div>
+    
+
+);
 };

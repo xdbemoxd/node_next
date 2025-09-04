@@ -1,8 +1,8 @@
-"use client"
-
 import * as React from "react"
 import Link from "next/link"
 import { components } from "../../data/data";
+import { auth } from "@/auth";
+import { signOut } from '@/auth';
 
 import {
   NavigationMenu,
@@ -13,8 +13,10 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import ButtonOut from "@/components/ui/buttoOut/page";
 
-export function NavigationMenuDemo() {
+export async function NavigationMenuDemo() {
+  const session = await auth()
   return (
     
     <NavigationMenu viewport={false}>
@@ -63,7 +65,7 @@ export function NavigationMenuDemo() {
         
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
         
-            <Link href="./createUser">About us</Link>
+            <Link href="./creatUser">About us</Link>
         
           </NavigationMenuLink>
         
@@ -71,12 +73,8 @@ export function NavigationMenuDemo() {
 
         <NavigationMenuItem>
         
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-        
-            <Link href="/">Sing In</Link>
-        
-          </NavigationMenuLink>
-        
+          {session !== null ? <ButtonOut/> : undefined }
+      
         </NavigationMenuItem>
       
       </NavigationMenuList>
