@@ -1,6 +1,4 @@
 import { auth } from "@/auth";
-import { signOut } from '@/auth';
-
 
 import AuthForms from "./optionClient/page";
 

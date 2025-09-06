@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import LoginForm from '@/app/login/page';
 import CreateForm from "@/app/creatUser/page";
+import { CardLogin } from "@/components/cardAuth/page";
 
 export default function AuthForms() {
   const [showForm, setShowForm] = useState<"login" | "create">("login");
@@ -28,7 +28,7 @@ export default function AuthForms() {
         </button>
       </div>
 
-      {showForm === "login" ? <LoginForm /> : <CreateForm />}
+      {showForm === "login" ? <CardLogin /> : <CreateForm />}
     </div>
   );
 }

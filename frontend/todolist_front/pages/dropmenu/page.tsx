@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/button"
+import { signOut } from '@/auth';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,10 +17,16 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { components } from "@/data/data"
 import Link from "next/link"
+import { auth } from "@/auth";
 
-export function DropdownMenuDemo() {
+
+export async function DropdownMenuDemo() {
+  
+  const session = await auth()
+  
   return (
-    <DropdownMenu>
+<div>
+<DropdownMenu>
       
       <DropdownMenuTrigger asChild>
         <Button variant="outline">Open</Button>
@@ -33,7 +41,7 @@ export function DropdownMenuDemo() {
       
           <DropdownMenuItem>
            
-            Profile
+            <Link href={"/"}>home</Link>
       
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
       
@@ -84,13 +92,26 @@ export function DropdownMenuDemo() {
         
         </DropdownMenuGroup>
         
-        <DropdownMenuSeparator />
+         {session && (
+        <form
+          action={async () => {
+            "use server";
+            await signOut({ redirectTo: "/" });
+          }}
+        >
+          {/* Un botón de Sign Out simple y siempre visible */}
+          <DropdownMenuSeparator />
+          <Button variant="ghost" type="submit">
+            Sign Out
+          </Button>
+        </form>
+      )}
+
         
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+</div>
+
+    
   )
 }

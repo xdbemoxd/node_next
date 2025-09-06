@@ -1,7 +1,7 @@
 "use server"
 
 import axios from "axios"
-import { userLogin } from "../../types/user";
+import { userLogin } from "../../../types/user";
 
 export async function authorizeUsers( form: userLogin ) {
 

@@ -2,7 +2,6 @@ import * as React from "react"
 import Link from "next/link"
 import { components } from "../../data/data";
 import { auth } from "@/auth";
-import { signOut } from '@/auth';
 
 import {
   NavigationMenu,

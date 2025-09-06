@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
-import { authorizeUsers } from "./app/api/user/api";
+import { authorizeUsers } from "./app/api/user/authorize/api";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -23,8 +23,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
        const user = await authorizeUsers({ userName, password });
 
         if (!user) return null
-
-        console.log(user);
 
         return {
           "id": user.id,
