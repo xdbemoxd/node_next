@@ -53,7 +53,7 @@ export default async function Home() {
             <CardContent>
             
               <Button asChild className="w-full">
-                <Link href={`/pages/task/${session.user.id}`}>Ir al Dashboard</Link>
+                <Link href={`/pages/task/${session.user.id}`}>go to Dashboard</Link>
               </Button>
             
             </CardContent>
@@ -61,60 +61,12 @@ export default async function Home() {
 
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">👤 Perfil</CardTitle>
-              <CardDescription>Gestiona tu información personal</CardDescription>
+              <CardTitle className="flex items-center gap-2">👤 Profile</CardTitle>
+              <CardDescription>Access your personal information</CardDescription>
             </CardHeader>
             <CardContent>
               <Button asChild variant="outline" className="w-full bg-transparent">
-                <Link href="/profile">Ver Perfil</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">⚙️ Configuración</CardTitle>
-              <CardDescription>Ajusta tus preferencias</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="secondary" className="w-full">
-                <Link href="/settings">Configuración</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">📈 Reportes</CardTitle>
-              <CardDescription>Consulta reportes detallados</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline" className="w-full bg-transparent">
-                <Link href="/reports">Ver Reportes</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">💬 Mensajes</CardTitle>
-              <CardDescription>Revisa tus mensajes</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline" className="w-full bg-transparent">
-                <Link href="/messages">Mensajes</Link>
-              </Button>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">🚪 Salir</CardTitle>
-              <CardDescription>Cerrar sesión de forma segura</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="destructive" className="w-full">
-                <Link href="/api/auth/signout">Cerrar Sesión</Link>
+                <Link href="/pages/profile">See Profile</Link>
               </Button>
             </CardContent>
           </Card>
@@ -122,6 +74,4 @@ export default async function Home() {
       </div>
     </div>
   )
-
-
 }
