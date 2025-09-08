@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useState, useActionState } from "react";
-import { CreateUser } from "../lib/createUser/action"
+import { CreateUser } from "../../lib/createUser/action"
 
 export default function CreateForm() {
 

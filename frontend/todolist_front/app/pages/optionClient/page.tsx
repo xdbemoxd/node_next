@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import CreateForm from "@/app/creatUser/page";
+import CreateForm from "@/app/pages/creatUser/page";
 import { CardLogin } from "@/components/cardAuth/page";
 
 export default function AuthForms() {

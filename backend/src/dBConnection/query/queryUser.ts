@@ -12,9 +12,6 @@ export async function loginUser({ id, password } :User){
 }
 
 export async function insertUser( { id, password, email, date_birth, name_user, last_name }:User_2 ) {
-  
-
-  console.log(id,password,email,date_birth,name_user,last_name);
 
   if ( date_birth === null  ) {
     const result = await pool.query(`INSERT INTO USER_APLICATION ( id_card, password_user, email, date_birth, name_user, last_name, rol_id) VALUES ('${id}', '${password}', '${email}', null, '${name_user}', '${last_name}', 3);`);

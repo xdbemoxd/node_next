@@ -3,12 +3,14 @@ export interface Task {
     name_task : string,
     description ?: string,
     id: number,
-    due_date : Date
+    due_date : Date,
+    status: "pending" | "in-progress" | "completed",
 }
 
 export interface Task_2 {
     urgency : number,
     name_task : string,
     description ?: string,
-    due_date : Date
+    due_date : Date,
+    status: number
 }

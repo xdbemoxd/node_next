@@ -24,7 +24,7 @@ export const components: { title: string; href: string; description: string }[] 
   },
   {
     title:"all",
-    href:"/",
+    href:"/page/task",
     description:"See a complete list of all tasks, filtered by your preferences."
   }
 ]
