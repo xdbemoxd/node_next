@@ -1,9 +1,14 @@
-import { Task } from "../../types/task";
+import { Task, Task_2 } from "../../types/task";
 import pool from "../dBconection";
 
 export async function typeUrgency() {
-    const result = await pool.query( 'SELECT * FROM urgency' );
-    return result.rows;
+    const result = await pool.query( 'SELECT * FROM URGENCY' );
+    return result;
+}
+
+export async function typeStatus() {
+    const result = await pool.query( 'SELECT * FROM STATUS_TASK' );
+    return result;
 }
 
 export async function allTaskUser( id : string ) {
@@ -16,9 +21,28 @@ export async function allTaskUser( id : string ) {
     return result;
 }
 
-export async function insertTask( id : string, task : Task) {
+export async function getIdStatus(type_status : string) {
     
-    const result = await pool.query( `INSERT INTO TO_DO_LIST (id_user, id_urgency, name_task, description, due_date, id_status) VALUES ( '${id}', '${task.urgency}', '${task.name_task}', '${task.description}', '${task.due_date}', '${task.status}' );` );
+    const result = await pool.query( `SELECT id FROM STATUS_TASK as ST where ST.status_description = '${type_status}';` );
+
+    return result
+
+}
+
+export async function getIdUrgency(type_urgency : string) {
+    
+    const result = await pool.query(`SELECT id FROM urgency as UR where UR.type_status = '${type_urgency}';`)
+
+    return result
+}
+
+export async function insertTask( id : string, task : Task_2) {
+
+    const idStatus = await getIdStatus(task.status);
+
+    const idUrgency = await getIdUrgency(task.urgency);
+
+    const result = await pool.query( `INSERT INTO TO_DO_LIST (id_user, id_urgency, name_task, description, due_date, id_status) VALUES ( '${id}', '${idUrgency.rows[0].id}', '${task.name_task}', '${task.description}', '${task.due_date}', '${idStatus.rows[0].id}' );` );
 
     return result;
 }

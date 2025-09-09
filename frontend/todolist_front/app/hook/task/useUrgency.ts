@@ -1,11 +1,11 @@
-import { GetAllTask } from "@/app/api/task/api";
+import { GetAllUrgencys } from "@/app/api/task/api";
 import useSWR from "swr";
 
 
-export function useTasks( id_user : string ) {
+export function useUrgency() {
   const { data, error, isLoading, mutate } = useSWR(
-    id_user ? id_user : null,
-    GetAllTask
+    "/task/urgency",
+    GetAllUrgencys
   );
 
   return {

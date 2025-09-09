@@ -1,6 +1,6 @@
 import express from "express";
-import { allTaskUser, deleteTask, insertTask, updateTask } from "../dBConnection/query/queryTaks";
-import { Task } from "../types/task";
+import { allTaskUser, deleteTask, insertTask, typeStatus, typeUrgency, updateTask } from "../dBConnection/query/queryTaks";
+import { Task, Task_2 } from "../types/task";
 
 const routeTask = express.Router();
 
@@ -22,7 +22,7 @@ routeTask.get( '/:id/task', async (req,res) => {
 routeTask.post( '/:id/task', async (req,res) => {
     
     const id = req.params.id;
-    const body : Task = req.body;
+    const body : Task_2 = req.body;
 
     if (id === undefined || body === undefined) {
         return res.status( 400 ).json( { message : "incorrect credentials" } );
@@ -75,6 +75,31 @@ routeTask.delete( '/:id_task/task', async (req,res) => {
     return res.json( { message: "Successfully deleted task",
         data:result.rows[0]
     } );
+
+});
+
+routeTask.get( '/task/urgency', async (_req,res) => {
+
+    const result = await typeUrgency();
+
+    if (result.rowCount === 0 ) {
+        return res.status( 400 ).json( { message : "Urgencys not found" } );
+    }
+
+    return res.json(result.rows);
+
+});
+
+routeTask.get( '/task/status', async ( _req, res)  => {
+    
+    const result = await typeStatus();
+
+    if (result.rowCount === 0 ) {
+        return res.status( 400 ).json( { message : "Status not found" } );
+    }
+
+    return res.json( result.rows );
+    
 
 });
 

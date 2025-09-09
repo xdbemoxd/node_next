@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -74,18 +74,48 @@ interface id_task {
 export default function TasksPageGrid( { id }: id_task)  {
 
   const { data, isError, isLoading, mutate } = useTasks(id);
-  const [ tasks, setTasks ] = useState<Task[]>(data);
-  const [ filter, setFilter ] = useState<"all" | "pending" | "in-progress" | "completed">("all");
+  const [ tasks, setTasks ] = useState<Task[]>([]);
+  const [ filterV, setFilter ] = useState<"all" | "pending" | "in-progress" | "completed">("all");
 
-  const filteredTasks = tasks.filter((task) => (filter === "all" ? true : task.status === filter))
+  useEffect( () => {
+  
+    if (data) setTasks(data);
+  
+  }, [data]);
 
   const toggleTaskStatus = (taskId: number) => {
     setTasks(
       tasks.map((task) =>
-        task.id === taskId ? { ...task, status: task.status === "completed" ? "pending" : "completed" } : task,
+        task.id_task === taskId ? { ...task, status: task.status === "completed" ? "pending" : "completed" } : task,
       ),
     )
   }
+
+  if (isError) {
+    mutate();
+    return <p>There was an error fetching tasks.</p>
+  }
+
+  if( isLoading ){
+    mutate();
+    return(
+      <div className="min-h-screen bg-background flex items-center justify-center">
+              
+        <div className="text-center space-y-4">
+                
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                
+            <p className="text-lg font-medium text-foreground">Loading your tasks...</p>
+            
+            <p className="text-sm text-muted-foreground">Please wait while we prepare everything for you</p>
+              
+          </div>
+        
+        </div>
+    )
+  }
+
+  const filteredTasks = tasks.filter((task) => (filterV === "all" ? true : task.status === filterV))
 
   const taskStats = {
     total: tasks.length,
@@ -93,8 +123,6 @@ export default function TasksPageGrid( { id }: id_task)  {
     inProgress: tasks.filter((t) => t.status === "in-progress").length,
     pending: tasks.filter((t) => t.status === "pending").length,
   }
-
-  console.log(data,isError,isLoading, mutate)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-4">
@@ -115,14 +143,12 @@ export default function TasksPageGrid( { id }: id_task)  {
           </div>
           <Button>
             <Plus className="w-4 h-4 mr-2" />
-            Nueva Tarea
+            <Link href={"/pages/addTask"}>
+              Nueva Tarea
+            </Link>
+            
           </Button>
         </div>
-
-        {
-          id === undefined ? <h1> no tiene nada </h1> :  <h1>{id}</h1>
-        }
-       
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
@@ -185,16 +211,16 @@ export default function TasksPageGrid( { id }: id_task)  {
 
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6">
-          <Button variant={filter === "all" ? "default" : "outline"} onClick={() => setFilter("all")}>
+          <Button variant={filterV === "all" ? "default" : "outline"} onClick={() => setFilter("all")}>
             Todas
           </Button>
-          <Button variant={filter === "pending" ? "default" : "outline"} onClick={() => setFilter("pending")}>
+          <Button variant={filterV === "pending" ? "default" : "outline"} onClick={() => setFilter("pending")}>
             Pendientes
           </Button>
-          <Button variant={filter === "in-progress" ? "default" : "outline"} onClick={() => setFilter("in-progress")}>
+          <Button variant={filterV === "in-progress" ? "default" : "outline"} onClick={() => setFilter("in-progress")}>
             En Progreso
           </Button>
-          <Button variant={filter === "completed" ? "default" : "outline"} onClick={() => setFilter("completed")}>
+          <Button variant={filterV === "completed" ? "default" : "outline"} onClick={() => setFilter("completed")}>
             Completadas
           </Button>
         </div>
@@ -202,11 +228,11 @@ export default function TasksPageGrid( { id }: id_task)  {
         {/* Tasks Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTasks.map((task) => (
-            <Card key={task.id} className="hover:shadow-lg transition-shadow duration-200">
+            <Card key={task.id_task} className="hover:shadow-lg transition-shadow duration-200">
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={task.status === "completed"} onCheckedChange={() => toggleTaskStatus(task.id)} />
+                    <Checkbox checked={task.status === "completed"} onCheckedChange={() => toggleTaskStatus(task.id_task)} />
                     <CardTitle className={`text-lg ${task.status === "completed" ? "line-through text-gray-500" : ""}`}>
                       {task.name_task}
                     </CardTitle>
@@ -236,12 +262,12 @@ export default function TasksPageGrid( { id }: id_task)  {
           <div className="text-center py-12">
             <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-              No hay tareas {filter !== "all" ? getStatusText(filter as Task["status"]).toLowerCase() : ""}
+              No hay tareas {filterV !== "all" ? getStatusText(filterV as Task["status"]).toLowerCase() : ""}
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              {filter === "all"
+              {filterV === "all"
                 ? "Crea tu primera tarea para comenzar"
-                : `No tienes tareas ${getStatusText(filter as Task["status"]).toLowerCase()}`}
+                : `No tienes tareas ${getStatusText(filterV as Task["status"]).toLowerCase()}`}
             </p>
           </div>
         )}

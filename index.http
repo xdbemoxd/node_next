@@ -41,14 +41,15 @@ Content-Type: application/json
 
 
 ###
-POST  http://localhost:3000/api/v1/user/1234/task
+POST  http://localhost:5000/api/v1/user/root/task
 Content-Type: application/json
 
 {
-    "urgency":1,
-    "name_task":"mock task 3",
-    "description":"add 3 mock task",
-    "due_date":"2025-09-09"
+    "urgency":"Low",
+    "name_task":"mock task 4",
+    "description":"add 4 mock task",
+    "due_date":"2025-09-09",
+    "status":"pending"
 }
 
 ###

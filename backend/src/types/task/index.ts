@@ -8,9 +8,9 @@ export interface Task {
 }
 
 export interface Task_2 {
-    urgency : number,
+    urgency : string,
     name_task : string,
     description ?: string,
     due_date : Date,
-    status: number
+    status: string
 }

@@ -15,13 +15,17 @@ export default async function Home() {
   const session = await auth()
 
   if (session?.user === undefined) {
+    
     return(
+      
       <div>
 
         <AuthForms/>
         
       </div>
+    
     )
+
   }
 
   
@@ -70,6 +74,20 @@ export default async function Home() {
               </Button>
             </CardContent>
           </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">👤 Add task</CardTitle>
+              <CardDescription>Go to the add task window</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild variant="outline" className="w-full bg-transparent">
+                <Link href="/pages/addTask">Go to add task</Link>
+              </Button>
+            </CardContent>
+          </Card>
+
+
         </div>
       </div>
     </div>
