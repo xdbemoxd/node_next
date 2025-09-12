@@ -1,5 +1,5 @@
 import express from "express";
-import { allTaskUser, deleteTask, insertTask, typeStatus, typeUrgency, updateTask } from "../dBConnection/query/queryTaks";
+import { allTaskUser, deleteTask, getOneTask, insertTask, typeStatus, typeUrgency, updateTask } from "../dBConnection/query/queryTaks";
 import { Task, Task_2 } from "../types/task";
 
 const routeTask = express.Router();
@@ -101,6 +101,23 @@ routeTask.get( '/task/status', async ( _req, res)  => {
     return res.json( result.rows );
     
 
+});
+
+routeTask.get( '/:id_task/task/oneTask', async (req, res) => {
+
+    const idTask = req.params.id_task
+
+    if (idTask === undefined) {
+        res.status( 400 ).json( { message : "incorrect credentials" } )
+    }
+
+    const result = await getOneTask(idTask);
+
+    if ( result.rowCount === 0 ) {
+        return res.status( 400 ).json( { message : "Task not found" } );
+    }
+
+    return res.json( result.rows[0] );
 });
 
 export default routeTask;

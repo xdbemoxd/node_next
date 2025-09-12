@@ -17,7 +17,7 @@ export async function allTaskUser( id : string ) {
         return;
     }
 
-    const result = await pool.query( `SELECT UR.type_status as urgency, name_task, description, due_date, ST.status_description as status, TDL.id AS id_task FROM TO_DO_LIST AS TDL LEFT JOIN URGENCY AS UR ON UR.id = TDL.id_urgency LEFT JOIN STATUS_TASK AS ST ON ST.id = TDL.id_status WHERE TDL.id_user = '${id}';` );
+    const result = await pool.query( `SELECT UR.type_status as urgency, name_task, description, due_date, ST.status_description as status, TDL.id AS id FROM TO_DO_LIST AS TDL LEFT JOIN URGENCY AS UR ON UR.id = TDL.id_urgency LEFT JOIN STATUS_TASK AS ST ON ST.id = TDL.id_status WHERE TDL.id_user = '${id}';` );
     return result;
 }
 
@@ -49,7 +49,11 @@ export async function insertTask( id : string, task : Task_2) {
 
 export async function updateTask( id : string, taskUpdate :Task ) {
 
-    const result = await pool.query( `UPDATE TO_DO_LIST SET id_urgency = '${taskUpdate.urgency}', name_task = '${taskUpdate.name_task}', description = '${taskUpdate.description}', due_date = '${taskUpdate.due_date}' WHERE id_user = '${id}' and id = '${taskUpdate.id}';` );
+    const idStatus = await getIdStatus(taskUpdate.status);
+
+    const idUrgency = await getIdUrgency(taskUpdate.urgency);
+
+    const result = await pool.query( `UPDATE TO_DO_LIST SET id_urgency = '${idUrgency.rows[0].id}', name_task = '${taskUpdate.name_task}', description = '${taskUpdate.description}', due_date = '${taskUpdate.due_date}', id_status = '${idStatus.rows[0].id}' WHERE id_user = '${id}' and id = '${taskUpdate.id}';` );
 
     return result;
 
@@ -62,5 +66,13 @@ export async function deleteTask( id_task : string ) {
 
   return result;
   
+
+}
+
+export async function getOneTask( id_task : string ) {
+    
+    const result = await pool.query( `SELECT UR.type_status as urgency, name_task, description, due_date, ST.status_description as status, TDL.id AS id_task FROM TO_DO_LIST AS TDL LEFT JOIN URGENCY AS UR ON UR.id = TDL.id_urgency LEFT JOIN STATUS_TASK AS ST ON ST.id = TDL.id_status WHERE TDL.id = '${id_task}';` );
+
+    return result;
 
 }

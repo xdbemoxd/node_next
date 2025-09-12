@@ -3,8 +3,8 @@ export interface Task {
     name_task : string,
     description ?: string,
     due_date : Date,
-    status: "pending" | "in-progress" | "completed" | null,
-    id_task : number
+    status: "pending" | "in-progress" | "completed" | null | string,
+    id : number
 }
 
 export interface Task_2 {

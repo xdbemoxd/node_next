@@ -71,11 +71,13 @@ interface id_task {
   id :string
 }
 
-export default function TasksPageGrid( { id }: id_task)  {
+export default function TasksPageGrid( { id }: id_task )  {
 
   const { data, isError, isLoading, mutate } = useTasks(id);
   const [ tasks, setTasks ] = useState<Task[]>([]);
   const [ filterV, setFilter ] = useState<"all" | "pending" | "in-progress" | "completed">("all");
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null)
+
 
   useEffect( () => {
   
@@ -83,10 +85,19 @@ export default function TasksPageGrid( { id }: id_task)  {
   
   }, [data]);
 
+  const handleDeleteTask = (taskId: number) => {
+    setTasks(tasks.filter((task) => task.id !== taskId))
+    setSelectedTaskId(null)
+  }
+
+  const handleTaskClick = (taskId: number) => {
+    setSelectedTaskId(selectedTaskId === taskId ? null : taskId)
+  }
+
   const toggleTaskStatus = (taskId: number) => {
     setTasks(
       tasks.map((task) =>
-        task.id_task === taskId ? { ...task, status: task.status === "completed" ? "pending" : "completed" } : task,
+        task.id === taskId ? { ...task, status: task.status === "completed" ? "pending" : "completed" } : task,
       ),
     )
   }
@@ -228,31 +239,90 @@ export default function TasksPageGrid( { id }: id_task)  {
         {/* Tasks Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTasks.map((task) => (
-            <Card key={task.id_task} className="hover:shadow-lg transition-shadow duration-200">
+            
+            <Card  onClick={() => handleTaskClick(task.id)} key={task.id} className="hover:shadow-lg transition-shadow duration-200">
+            
               <CardHeader className="pb-3">
+            
                 <div className="flex items-start justify-between">
+            
                   <div className="flex items-center gap-2">
-                    <Checkbox checked={task.status === "completed"} onCheckedChange={() => toggleTaskStatus(task.id_task)} />
+            
+                    <Checkbox checked={task.status === "completed"} onCheckedChange={() => toggleTaskStatus(task.id)} />
+            
                     <CardTitle className={`text-lg ${task.status === "completed" ? "line-through text-gray-500" : ""}`}>
+            
                       {task.name_task}
+            
                     </CardTitle>
+            
                   </div>
+            
                 </div>
+            
                 <div className="flex gap-2 mt-2">
+            
                   <Badge className={getStatusColor(task.status)}>{getStatusText(task.status)}</Badge>
+            
                   <Badge className={getPriorityColor(task.urgency)}>{getPriorityText(task.urgency)}</Badge>
+            
                 </div>
+            
               </CardHeader>
+            
               <CardContent className="pt-0">
+            
                 <CardDescription className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            
                   {task.description}
+            
                 </CardDescription>
+            
                 <div className="space-y-2 text-sm text-gray-500 dark:text-gray-400">
+            
                   <div className="flex items-center gap-2">
+            
                     <Calendar className="w-4 h-4" />
+            
                     <span>Vence: {new Date(task.due_date).toLocaleDateString("es-ES")}</span>
+            
                   </div>
+            
                 </div>
+
+               {selectedTaskId === task.id && (
+                  
+                  <div className="flex gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  
+                    <Button
+                  
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 bg-transparent"
+                    >
+
+                      <Link href={`/pages/updateTask/${task.id}`}>Editar</Link>
+                      
+                    </Button>
+                    
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="flex-1"
+                    
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDeleteTask(task.id)
+                      }}
+                    >
+                    
+                      Eliminar
+                    
+                    </Button>
+                  
+                  </div>
+                )}
+
               </CardContent>
             </Card>
           ))}

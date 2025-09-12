@@ -1,5 +1,5 @@
 export interface Task {
-    urgency : number,
+    urgency : string,
     name_task : string,
     description ?: string,
     id: number,
