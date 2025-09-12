@@ -152,3 +152,25 @@ export async function UpdateTaskApi(formData : FormData, id_user : string) {
   }
     
 }
+
+export async function DeleteTaskApi( id_task : number ) {
+    
+
+    try {
+       
+        console.log(id_task);
+
+        const response = await axios.delete(`${process.env.BACKEND_URL}/${id_task}/task`);
+        
+        if (!response) return null
+        
+        const { data } = await response
+      
+        return data
+
+    } catch (error) {
+        return error;
+    }
+
+
+}

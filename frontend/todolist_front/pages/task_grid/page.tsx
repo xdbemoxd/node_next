@@ -9,6 +9,17 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Plus, ArrowLeft, Calendar, Clock } from "lucide-react"
 import { Task } from "@/app/types/task"
 import { useTasks } from "@/app/hook/task/useTask"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { DeleteTaskApi } from "@/app/api/task/api"
 
 
 const getStatusColor = (status: Task["status"]) => {
@@ -76,8 +87,9 @@ export default function TasksPageGrid( { id }: id_task )  {
   const { data, isError, isLoading, mutate } = useTasks(id);
   const [ tasks, setTasks ] = useState<Task[]>([]);
   const [ filterV, setFilter ] = useState<"all" | "pending" | "in-progress" | "completed">("all");
-  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null)
-
+  const [ selectedTaskId, setSelectedTaskId] = useState< number | null >( null )
+  const [ showDeleteDialog, setShowDeleteDialog] = useState( false )
+  const [ taskToDelete, setTaskToDelete] = useState< number | null >( null )
 
   useEffect( () => {
   
@@ -85,9 +97,13 @@ export default function TasksPageGrid( { id }: id_task )  {
   
   }, [data]);
 
-  const handleDeleteTask = (taskId: number) => {
-    setTasks(tasks.filter((task) => task.id !== taskId))
-    setSelectedTaskId(null)
+  const handleDeleteTask = async (taskId: number) => {
+    const result = await DeleteTaskApi(taskId);
+    console.log(result);
+    mutate()
+    setSelectedTaskId(null);
+    setShowDeleteDialog(false);
+    setTaskToDelete(null);
   }
 
   const handleTaskClick = (taskId: number) => {
@@ -100,6 +116,11 @@ export default function TasksPageGrid( { id }: id_task )  {
         task.id === taskId ? { ...task, status: task.status === "completed" ? "pending" : "completed" } : task,
       ),
     )
+  }
+
+  const openDeleteDialog = (taskId: number) => {
+    setTaskToDelete(taskId)
+    setShowDeleteDialog(true)
   }
 
   if (isError) {
@@ -304,27 +325,31 @@ export default function TasksPageGrid( { id }: id_task )  {
                       <Link href={`/pages/updateTask/${task.id}`}>Editar</Link>
                       
                     </Button>
-                    
+
+
                     <Button
                       variant="destructive"
                       size="sm"
                       className="flex-1"
-                    
                       onClick={(e) => {
                         e.stopPropagation()
-                        handleDeleteTask(task.id)
+                        openDeleteDialog(task.id)
                       }}
                     >
-                    
                       Eliminar
-                    
                     </Button>
+                    
+                   
                   
                   </div>
                 )}
 
               </CardContent>
             </Card>
+
+            
+
+
           ))}
         </div>
 
@@ -341,6 +366,29 @@ export default function TasksPageGrid( { id }: id_task )  {
             </p>
           </div>
         )}
+
+        <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>¿Está seguro que desea eliminar esta tarea?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Esta acción no se puede deshacer. La tarea será eliminada permanentemente.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  if (taskToDelete) {
+                    handleDeleteTask(taskToDelete)
+                  }
+                }}
+              >
+                Eliminar
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   )
