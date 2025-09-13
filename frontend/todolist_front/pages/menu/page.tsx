@@ -43,7 +43,7 @@ export async function NavigationMenuDemo() {
         
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
         
-            <Link href="./creatUser">About us</Link>
+            <Link href={`/pages/aboutUs`}>About us</Link>
         
           </NavigationMenuLink>
         

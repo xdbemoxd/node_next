@@ -38,8 +38,6 @@ export async function DropdownMenuDemo() {
            
             <Link href={"/"}>home</Link>
       
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-      
           </DropdownMenuItem>
         
         </DropdownMenuGroup>
@@ -55,18 +53,18 @@ export async function DropdownMenuDemo() {
            
             <Link href={`/pages/task/${session?.user?.id}`}>Dashboard</Link>
       
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+           
+            <Link href={`/pages/aboutUs`}>About us</Link>
       
           </DropdownMenuItem>
         
         </DropdownMenuGroup>
         
         
-        <DropdownMenuSeparator />
-
-        
-        
-        
+        <DropdownMenuSeparator />       
         
          {session && (
         <form
