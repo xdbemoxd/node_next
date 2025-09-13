@@ -11,8 +11,6 @@ export async function UpdateTask(
   const session = await auth()
 
   try {
-    
-    console.log(formData , session?.user?.id);
 
     if (session?.user?.id === undefined) return 'Invalid credentials.';
 
