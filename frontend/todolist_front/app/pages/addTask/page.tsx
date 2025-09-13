@@ -98,7 +98,7 @@ export default function AddTaskForm() {
       
           <div className="grid gap-2">
       
-            <Label htmlFor="name_task">Nombre de la Tarea *</Label>
+            <Label htmlFor="name_task">Name task *</Label>
       
             <Input
               id="name_task"
@@ -112,7 +112,7 @@ export default function AddTaskForm() {
 
           <div className="grid gap-2">
             
-            <Label htmlFor="description">Descripción</Label>
+            <Label htmlFor="description">Description</Label>
             
             <Textarea
               id="description"
@@ -130,7 +130,7 @@ export default function AddTaskForm() {
               
               <div className="grid gap-2">
                 
-                <Label htmlFor="urgency">Urgencia *</Label>
+                <Label htmlFor="urgency">Urgency *</Label>
                   
                   <Select name="urgency" required>
                     
@@ -146,7 +146,7 @@ export default function AddTaskForm() {
                   
                     <SelectItem value="" disabled>
                   
-                      Cargando opciones...
+                      loading options...
                   
                     </SelectItem>
                   
@@ -156,7 +156,7 @@ export default function AddTaskForm() {
                   
                     <SelectItem value="" disabled>
                   
-                      Error al cargar opciones
+                      Error loading options
                   
                     </SelectItem>
                   )}
@@ -176,7 +176,7 @@ export default function AddTaskForm() {
 
             <div className="grid gap-2">
             
-              <Label htmlFor="due_date">Fecha de Vencimiento *</Label>
+              <Label htmlFor="due_date">Due date *</Label>
             
               <Input
                 id="due_date"
@@ -212,7 +212,7 @@ export default function AddTaskForm() {
                   
                     <SelectItem value="" disabled>
                   
-                      Cargando opciones...
+                      loading options...
                   
                     </SelectItem>
                   
@@ -222,7 +222,7 @@ export default function AddTaskForm() {
                   
                     <SelectItem value="" disabled>
                   
-                      Error al cargar opciones
+                      Error loading options
                   
                     </SelectItem>
                   )}
@@ -245,7 +245,7 @@ export default function AddTaskForm() {
 
           <Button className="w-full" aria-disabled={isPending}>
             <Plus className="w-4 h-4 mr-2" />
-            Crear Tarea
+            Create task
           </Button>
         </form>
 

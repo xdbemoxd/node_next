@@ -37,8 +37,8 @@ export default async function Home() {
     
         <div className="text-center space-y-4">
     
-          <h1 className="text-4xl font-bold text-foreground">Bienvenido {session.user.name}</h1>
-          <p className="text-muted-foreground text-lg">¿Qué te gustaría hacer hoy?</p>
+          <h1 className="text-4xl font-bold text-foreground">Hello, {session.user.name}. Welcome! </h1>
+          <p className="text-muted-foreground text-lg">What would you like to do today?</p>
     
         </div>
 

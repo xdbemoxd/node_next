@@ -28,17 +28,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`font-sans ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* Menú de Escritorio: visible solo en md y más grandes */}
-        <div className="hidden md:flex">
+        <div className="hidden md:flex justify-center py-6 bg-gradient-to-r from-slate-50 to-gray-100 border-b border-gray-200">
        
           <NavigationMenuDemo />
        
         </div>
 
         {/* Menú Móvil: visible solo en pantallas más pequeñas que md */}
-        <div className="flex md:hidden">
+        <div className="flex md:hidden py-4 bg-gradient-to-r from-slate-50 to-gray-100 border-b border-gray-200">
         
           <DropdownMenuDemo />
         

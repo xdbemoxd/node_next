@@ -50,33 +50,9 @@ const getPriorityColor = (priority: Task["urgency"]) => {
   }
 }
 
-const getStatusText = (status: Task["status"]) => {
-  switch (status) {
-    case "completed":
-      return "Completada"
-    case "in-progress":
-      return "En Progreso"
-    case "pending":
-      return "Pendiente"
-    default:
-      return "Desconocido"
-  }
-}
 
-const getPriorityText = (priority: Task["urgency"]) => {
-  switch (priority) {
-    case "Critical":
-        return "Critica"
-    case "High":
-      return "Alta"
-    case "Medium":
-      return "Media"
-    case "Low":
-      return "Baja"
-    default:
-      return "Normal"
-  }
-}
+
+
 
 interface id_task {
   id :string
@@ -165,18 +141,18 @@ export default function TasksPageGrid( { id }: id_task )  {
             <Link href="/">
               <Button variant="outline" size="sm">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Volver
+                Return
               </Button>
             </Link>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Mis Tareas</h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">Gestiona y organiza tus tareas diarias</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Task</h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-1">Manage and organize your daily tasks</p>
             </div>
           </div>
           <Button>
             <Plus className="w-4 h-4 mr-2" />
             <Link href={"/pages/addTask"}>
-              Nueva Tarea
+              New Task
             </Link>
             
           </Button>
@@ -202,7 +178,7 @@ export default function TasksPageGrid( { id }: id_task )  {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Completadas</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Complete</p>
                   <p className="text-2xl font-bold text-green-600 dark:text-green-400">{taskStats.completed}</p>
                 </div>
                 <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
@@ -216,7 +192,7 @@ export default function TasksPageGrid( { id }: id_task )  {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">En Progreso</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">In Progess</p>
                   <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{taskStats.inProgress}</p>
                 </div>
                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
@@ -230,7 +206,7 @@ export default function TasksPageGrid( { id }: id_task )  {
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pendientes</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Pending</p>
                   <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{taskStats.pending}</p>
                 </div>
                 <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
@@ -244,16 +220,16 @@ export default function TasksPageGrid( { id }: id_task )  {
         {/* Filter Buttons */}
         <div className="flex gap-2 mb-6">
           <Button variant={filterV === "all" ? "default" : "outline"} onClick={() => setFilter("all")}>
-            Todas
+            all
           </Button>
           <Button variant={filterV === "pending" ? "default" : "outline"} onClick={() => setFilter("pending")}>
-            Pendientes
+            Pending
           </Button>
           <Button variant={filterV === "in-progress" ? "default" : "outline"} onClick={() => setFilter("in-progress")}>
-            En Progreso
+            In Progress
           </Button>
           <Button variant={filterV === "completed" ? "default" : "outline"} onClick={() => setFilter("completed")}>
-            Completadas
+            Completed
           </Button>
         </div>
 
@@ -283,9 +259,9 @@ export default function TasksPageGrid( { id }: id_task )  {
             
                 <div className="flex gap-2 mt-2">
             
-                  <Badge className={getStatusColor(task.status)}>{getStatusText(task.status)}</Badge>
+                  <Badge className={getStatusColor(task.status)}>{task.status}</Badge>
             
-                  <Badge className={getPriorityColor(task.urgency)}>{getPriorityText(task.urgency)}</Badge>
+                  <Badge className={getPriorityColor(task.urgency)}>{task.urgency}</Badge>
             
                 </div>
             
@@ -305,7 +281,7 @@ export default function TasksPageGrid( { id }: id_task )  {
             
                     <Calendar className="w-4 h-4" />
             
-                    <span>Vence: {new Date(task.due_date).toLocaleDateString("es-ES")}</span>
+                    <span>Due: {new Date(task.due_date).toLocaleDateString("es-ES")}</span>
             
                   </div>
             
@@ -322,7 +298,7 @@ export default function TasksPageGrid( { id }: id_task )  {
                       className="flex-1 bg-transparent"
                     >
 
-                      <Link href={`/pages/updateTask/${task.id}`}>Editar</Link>
+                      <Link href={`/pages/updateTask/${task.id}`}>Update</Link>
                       
                     </Button>
 
@@ -336,7 +312,7 @@ export default function TasksPageGrid( { id }: id_task )  {
                         openDeleteDialog(task.id)
                       }}
                     >
-                      Eliminar
+                      Delete
                     </Button>
                     
                    
@@ -357,12 +333,12 @@ export default function TasksPageGrid( { id }: id_task )  {
           <div className="text-center py-12">
             <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-              No hay tareas {filterV !== "all" ? getStatusText(filterV as Task["status"]).toLowerCase() : ""}
+              No tasks available {filterV !== "all" ? filterV as Task["status"] : ""}
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               {filterV === "all"
-                ? "Crea tu primera tarea para comenzar"
-                : `No tienes tareas ${getStatusText(filterV as Task["status"]).toLowerCase()}`}
+                ? "Create your first task to get started"
+                : `You have no tasks ${ filterV as Task["status"] }`}
             </p>
           </div>
         )}
@@ -370,13 +346,13 @@ export default function TasksPageGrid( { id }: id_task )  {
         <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>¿Está seguro que desea eliminar esta tarea?</AlertDialogTitle>
+              <AlertDialogTitle>Are you sure you want to delete this task?</AlertDialogTitle>
               <AlertDialogDescription>
-                Esta acción no se puede deshacer. La tarea será eliminada permanentemente.
+                This action cannot be undone. The task will be permanently deleted.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancelar</AlertDialogCancel>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
                   if (taskToDelete) {
@@ -384,7 +360,7 @@ export default function TasksPageGrid( { id }: id_task )  {
                   }
                 }}
               >
-                Eliminar
+                Delete
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>

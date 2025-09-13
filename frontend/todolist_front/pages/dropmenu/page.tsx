@@ -7,15 +7,10 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { components } from "@/data/data"
 import Link from "next/link"
 import { auth } from "@/auth";
 
@@ -51,46 +46,27 @@ export async function DropdownMenuDemo() {
         
         
         <DropdownMenuSeparator />
-        
+
+        <DropdownMenuLabel>Dashboard</DropdownMenuLabel>
+      
         <DropdownMenuGroup>
-          
-          <DropdownMenuItem>Activity</DropdownMenuItem>
-          
-          <DropdownMenuSub>
-          
-            <DropdownMenuSubTrigger>See task</DropdownMenuSubTrigger>
-          
-            <DropdownMenuPortal>
-          
-              <DropdownMenuSubContent>
-
-                <ul className="grid w-full gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                    
-                              {components.map((component) => (
-
-                                
-                                <DropdownMenuItem key={component.title}
-                                title={component.title}
-                                >
-                                    <Link href={component.href}>
-                                    {component.title}
-                                    </Link>
-                                    
-                                
-                                </DropdownMenuItem>
-                                
-                               
-                              ))}
-                            
-                            </ul>
-          
-              </DropdownMenuSubContent>
-          
-            </DropdownMenuPortal>
-          
-          </DropdownMenuSub>
+      
+          <DropdownMenuItem>
+           
+            <Link href={`/pages/task/${session?.user?.id}`}>Dashboard</Link>
+      
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+      
+          </DropdownMenuItem>
         
         </DropdownMenuGroup>
+        
+        
+        <DropdownMenuSeparator />
+
+        
+        
+        
         
          {session && (
         <form

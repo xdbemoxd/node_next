@@ -105,7 +105,7 @@ export default function EditTaskForm( { id }: id_task ) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Edit className="w-5 h-5" />
-          Editar Tarea
+          Update Task
         </CardTitle>
       </CardHeader>
 
@@ -121,7 +121,7 @@ export default function EditTaskForm( { id }: id_task ) {
           
           <div className="grid gap-2">
           
-            <Label htmlFor="name_task">Nombre de la Tarea *</Label>
+            <Label htmlFor="name_task">Name task *</Label>
           
             <Input
               id="name_task"
@@ -135,7 +135,7 @@ export default function EditTaskForm( { id }: id_task ) {
 
 
           <div className="grid gap-2">
-            <Label htmlFor="description">Descripción</Label>
+            <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
               value={formData?.description}
@@ -148,7 +148,7 @@ export default function EditTaskForm( { id }: id_task ) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="urgency">Urgencia *</Label>
+              <Label htmlFor="urgency">Urgency *</Label>
               <Select 
                 value={formData?.urgency}
                 name="urgency"
@@ -167,7 +167,8 @@ export default function EditTaskForm( { id }: id_task ) {
                 
                     <SelectItem value="" disabled>
                   
-                      Cargando opciones...
+                      loading options...
+
                     </SelectItem>
                   )}
                   
@@ -175,7 +176,7 @@ export default function EditTaskForm( { id }: id_task ) {
                     
                     <SelectItem value="" disabled>
                     
-                      Error al cargar opciones
+                      Error loading options
                     
                     </SelectItem>
                   )}
@@ -201,7 +202,7 @@ export default function EditTaskForm( { id }: id_task ) {
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="due_date">Fecha de Vencimiento *</Label>
+              <Label htmlFor="due_date">Due date *</Label>
               <Input
                 id="due_date"
                 type="date"
@@ -213,7 +214,7 @@ export default function EditTaskForm( { id }: id_task ) {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="status">Estado</Label>
+            <Label htmlFor="status">Estatus</Label>
             <Select value={formData?.status || "pending"}
             name="status"
             onValueChange={(value) => handleSelectChange('status', value)}>
@@ -227,7 +228,7 @@ export default function EditTaskForm( { id }: id_task ) {
                                   
                     <SelectItem value="" disabled>
                                   
-                        Cargando opciones...
+                        Loading options...
                                   
                             </SelectItem>
                                   
@@ -237,7 +238,7 @@ export default function EditTaskForm( { id }: id_task ) {
                                   
                     <SelectItem value="" disabled>
                                   
-                        Error al cargar opciones
+                       Error loading options
                                   
                             </SelectItem>
                 )}
@@ -262,11 +263,11 @@ export default function EditTaskForm( { id }: id_task ) {
           <div className="flex gap-2">
             <Button type="submit" className="flex-1">
               <Edit className="w-4 h-4 mr-2" />
-              Guardar Cambios
+              Save Changes
             </Button>
             <Button type="button" variant="outline" className="flex-1 bg-transparent">
               <X className="w-4 h-4 mr-2" />
-              <Link href={`/`}> Cancelar </Link> 
+              <Link href={`/`}> Cancel </Link> 
             </Button>
           </div>
         </form>
